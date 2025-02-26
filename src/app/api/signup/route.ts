@@ -1,9 +1,10 @@
 import { SendEmail } from "@/helpers/SendVerificationCode"
+import DBConnect from "@/lib/DBConnection"
 import UserModel from "@/Models/user.model"
 import bcrypt from "bcryptjs"
 
 export async function POST(req: Request) {
-
+await DBConnect()
     try {
         const { username, email, password } = await req.json()
 
@@ -64,7 +65,7 @@ export async function POST(req: Request) {
             }
             return Response.json({
                 success: true,
-                message: "User registered successfully. please verify your email to continue."
+                message: sendEmail.message
             },
                 {
                     status: 200
