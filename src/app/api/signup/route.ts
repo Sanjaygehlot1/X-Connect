@@ -8,12 +8,12 @@ await DBConnect()
     try {
         const { username, email, password } = await req.json()
 
-        const ExistingUserByUsername = await UserModel.findOne({
+        const ExistingVerifiedUserByUsername = await UserModel.findOne({
             username,
             isVerified: true
         })
 
-        if (ExistingUserByUsername) {
+        if (ExistingVerifiedUserByUsername) {
             return Response.json({
                 success: false,
                 message: "username already taken. please use a different one."
