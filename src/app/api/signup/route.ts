@@ -35,6 +35,7 @@ await DBConnect()
             ExistingUserByEmail.password = hashedPass
             ExistingUserByEmail.verifyCode = verifyCode
             ExistingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+            ExistingUserByEmail.username = username
             await ExistingUserByEmail.save()
 
 
