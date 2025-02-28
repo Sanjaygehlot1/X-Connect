@@ -161,7 +161,7 @@ function signUpPage() {
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                     Already have an account?{" "}
-                    <a href="#" className="underline underline-offset-4 hover:text-primary">
+                    <a href="/signin" className="underline underline-offset-4 hover:text-primary">
                         Sign in
                     </a>
                 </p>

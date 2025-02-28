@@ -2,11 +2,11 @@ import UserModel from "@/Models/user.model";
 import DBConnect from "@/lib/DBConnection";
 import { getServerSession, User } from "next-auth";
 import { AuthOptions } from "../auth/[...nextauth]/options";
-import mongoose from "mongoose";
 
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
     DBConnect()
+
     const session = await getServerSession(AuthOptions)
     const user: User = session?.user as User
     if (!session || !user) {
@@ -15,11 +15,12 @@ export async function POST(request: Request) {
             { status: 401 }
         );
     }
+
+
     try {
-        const userId = new mongoose.Types.ObjectId(user?._id)
 
         const existingUser = await UserModel.findById(user?._id)
-        if(!existingUser){
+        if (!existingUser) {
             return Response.json(
                 {
                     success: false,
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
             }
         ])
 
-        if(!userMessages || userMessages.length === 0){
+        if (!userMessages || userMessages.length === 0) {
             return Response.json(
                 {
                     success: false,
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
             {
                 success: true,
                 messages: allMessages,
+                message : "All messages fetched successfully"
             },
             { status: 200 }
         );

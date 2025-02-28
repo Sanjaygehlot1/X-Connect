@@ -40,6 +40,7 @@ function signInPage() {
                 email: data.email,
                 password: data.password
             })
+            console.log("Result::",result)
             if (result?.error) {
                 if (result.error === "CredentialsSignin") {
                     toast("Sign in Failed", {
@@ -108,8 +109,8 @@ function signInPage() {
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                     haven't joined yet ?{" "}
-                    <a href="#" className="underline underline-offset-4 hover:text-primary">
-                        Sign in
+                    <a href="/signup" className="underline underline-offset-4 hover:text-primary">
+                        Sign up
                     </a>
                 </p>
             </div>
