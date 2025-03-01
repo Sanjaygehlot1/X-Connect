@@ -1,6 +1,5 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { ApiResponse } from '@/lib/utils/ApiResponse';
 import { Message } from '@/Models/message.model';
@@ -26,8 +25,8 @@ function page() {
   const {data: session} = useSession()
   const username = session?.user?.username
 
-  const host = window.location.host
-  const protocol = window.location.protocol
+  const host = window?.location.host
+  const protocol = window?.location.protocol
 
   const form  = useForm({
     resolver: zodResolver(AcceptMessageSchema)
@@ -75,7 +74,7 @@ function page() {
       toast("Message Preference toggled",
         {
           position: "top-center",
-          description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "You will receive anonymous messages." : "You will not receive anonymous messages."}</span>,
+          description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "Message preference: ON" : "Message preference: OFF"}</span>,
           duration: 1000
         }
       )
@@ -95,12 +94,7 @@ function page() {
     try {
       const response = await axios.get<ApiResponse>("/api/accept-message")
       setValue("messagePreference",response.data.isAcceptingMessage as boolean)
-      toast("Message Preference fetched",
-        {
-          position: "top-center",
-          description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "On" : "Off"}</span>,
-          duration: 1000
-        })
+
     } catch (error) {
       console.log("EROORL::",error)
       const AxiosError = error as AxiosError<ApiResponse>

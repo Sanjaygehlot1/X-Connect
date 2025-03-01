@@ -60,10 +60,10 @@ export async function GET(request: Request) {
         if (!userMessages || userMessages.length === 0) {
             return Response.json(
                 {
-                    success: false,
+                    success: true,
                     message: 'No messages found',
                 },
-                { status: 500 }
+                { status: 200 }
             );
         }
         const allMessages = userMessages[0]?.messages

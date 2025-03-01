@@ -16,7 +16,7 @@ const DBConnect = async (): Promise<void> => {
         Connection.isConnected = Connect.connections[0].readyState
         console.log("DB Connected Successfully!")
     } catch (error) {
-        console.log("DB COnnection Failed")
+        console.log("DB Connection Failed",error)
         process.exit(1)
     }
 }

@@ -1,5 +1,4 @@
 'use client'
-import {ModeToggle} from "@/ThemeProvider/toggleTheme"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpSchema } from "@/Schemas/SignupSchema"
 import { ApiResponse } from "@/lib/utils/ApiResponse"
@@ -97,30 +96,30 @@ function signUpPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-            <div className="w-full max-w-md rounded-md bg-white p-6 shadow-md sm:w-96">
-                <ModeToggle/>
-                <div className="flex flex-col items-center gap-2">
-                    <a href="#" className="flex flex-col items-center gap-2 font-medium">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-200">
-                            <GalleryVerticalEnd className="size-6 text-gray-700" />
+        <div className="flex min-h-screen bg-black text-white items-center justify-center  p-4">
+            <div className="w-full max-w-md rounded-md bg-black text-white p-6 shadow-md sm:w-96">
+                <div className="flex flex-col bg-black text-white items-center gap-2">
+                    <a href="#" className="flex bg-black text-white flex-col items-center gap-2 font-medium">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-black text-white">
+                            <GalleryVerticalEnd className="size-6 bg-black text-white" />
                         </div>
-                        <span className="sr-only">X Connect</span>
+                        <span className="sr-only bg-black text-white">X Connect</span>
                     </a>
-                    <h1 className="text-xl font-bold">Welcome to X Connect</h1>
-                    <p className="text-center text-sm text-muted-foreground">
-                        <span className="font-semibold">"Speak Freely, Stay Anonymous."</span>
+                    <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
+                    <p className="text-center text-sm text-muted-foreground bg-black text-white">
+                        <span className="font-semibold bg-black text-white">"Speak Freely, Stay Anonymous."</span>
                     </p>
                 </div>
 
-                <form onSubmit={form.handleSubmit(submit)} className="mt-6 space-y-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="username">Username</Label>
+                <form onSubmit={form.handleSubmit(submit)} className="mt-6 space-y-4 bg-black text-white">
+                    <div className="grid gap-2 bg-black text-white">
+                        <Label htmlFor="username" className="bg-black text-white">Username</Label>
                         <Input
                             id="username"
                             type="text"
                             placeholder="John Doe"
                             required
+                            className="bg-black text-white"
                             {...register("username", { required: "Username is required" })}
                             onChange={(e) => {
                                 debouncedValue(e.target.value);
@@ -135,8 +134,9 @@ function signUpPage() {
                         <Input
                             id="email"
                             type="email"
-                            placeholder="m@example.com"
+                            placeholder="example@gmail.com"
                             required
+                            className="bg-black text-white"
                             {...register("email", { required: "Email is required" })}
                         />
                         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
@@ -149,19 +149,20 @@ function signUpPage() {
                             type="password"
                             placeholder="*********"
                             required
+                            className="bg-black text-white"
                             {...register("password", { required: "Password is required" })}
                         />
                         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                     </div>
 
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full bg-white text-black">
                         {isSubmitting ? <Loader className="animate-spin" /> : "Sign up"}
                     </Button>
                 </form>
 
-                <p className="mt-4 text-center text-sm text-muted-foreground">
+                <p className="mt-4 text-center text-sm text-muted-foreground bg-black text-white">
                     Already have an account?{" "}
-                    <a href="/signin" className="underline underline-offset-4 hover:text-primary">
+                    <a href="/signin" className="underline underline-offset-4 bg-black text-white hover:text-primary">
                         Sign in
                     </a>
                 </p>

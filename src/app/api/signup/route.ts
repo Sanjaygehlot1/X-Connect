@@ -1,7 +1,9 @@
 import { SendEmail } from "@/helpers/SendVerificationCode"
 import DBConnect from "@/lib/DBConnection"
 import UserModel from "@/Models/user.model"
+import axios from "axios"
 import bcrypt from "bcryptjs"
+
 
 export async function POST(req: Request) {
 await DBConnect()
@@ -19,6 +21,7 @@ await DBConnect()
                 message: "username already taken. please use a different one."
             })
         }
+
         const ExistingUserByEmail = await UserModel.findOne({ email })
         let hashedPass = await bcrypt.hash(password, 10)
         let verifyCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -54,24 +57,25 @@ await DBConnect()
             await NewUser.save()
         }
 
-        const sendEmail = await SendEmail(email, username, verifyCode)
-            if (!sendEmail.success) {
-                return Response.json({
-                    success: false,
-                    message: sendEmail.message
-                },
-                    {
-                        status: 500
-                    })
-            }
+        const emailSubject = "X Connect | Verification Code"
+        const text = `Your verification code to verify your email is: ${verifyCode}`
+
+        const sendEmail = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/send-email`,{to:email, subject : emailSubject , text })
+
+        if(sendEmail.data.success){
+           return Response.json({
+            success: true,
+            message: sendEmail.data.message,
+          },
+          { status: 201 })
+        }else{
             return Response.json({
-                success: true,
-                message: sendEmail.message
-            },
-                {
-                    status: 200
-                }
-            )
+                success: false,
+                message: sendEmail.data.message,
+              },
+              { status: 500 })
+        }
+        
     } catch (error) {
         console.log("Error Registering user::",error)
         return Response.json(

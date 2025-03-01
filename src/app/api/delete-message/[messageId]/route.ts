@@ -1,13 +1,13 @@
+'use server'
 import UserModel from "@/Models/user.model";
 import DBConnect from "@/lib/DBConnection";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "../auth/[...nextauth]/options";
+import { AuthOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
-
 export async function DELETE(request: Request, {params} : {params: {messageId: string}}) {
 
     DBConnect()
-    const  messageId  = params.messageId
+    const  messageId  =  params?.messageId
     const session = await getServerSession(AuthOptions)
     const user: User = session?.user as User
     if (!session || !user) {
@@ -16,6 +16,8 @@ export async function DELETE(request: Request, {params} : {params: {messageId: s
             { status: 401 }
         );
     }
+    
+    
     try {
         const response = await UserModel.updateOne(
             {

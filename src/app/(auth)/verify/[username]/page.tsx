@@ -57,7 +57,8 @@ function page() {
                 router.replace("/dashboard")
                 toast("Verfication successful", {
                     description: "email verified successfully",
-                    icon: <CheckCircle />
+                    icon: <CheckCircle />,
+                    position: "top-center"
                 })
             }else{
                 toast("VerficationFailed", {
@@ -84,11 +85,11 @@ function page() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div className="flex items-center justify-center min-h-screen bg-black p-4">
             <Card className="w-full max-w-md shadow-lg">
                 <CardContent className="p-6 space-y-6">
                     <h2 className="text-2xl font-bold text-center">Verify Your Account</h2>
-                    <p className="text-gray-600 text-center">
+                    <p className="text-white text-center">
                         Enter the verification code sent to your email
                     </p>
                     <Form {...form}>

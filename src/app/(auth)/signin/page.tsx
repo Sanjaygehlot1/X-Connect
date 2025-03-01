@@ -1,5 +1,4 @@
 'use client'
-import { ModeToggle } from "@/ThemeProvider/toggleTheme"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -63,17 +62,17 @@ function signInPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-            <div className="w-full max-w-md rounded-md bg-white p-6 shadow-md sm:w-96">
-                <ModeToggle />
+        <div className="flex min-h-screen items-center justify-center bg-black text-white p-4">
+            
+            <div className=" w-full max-w-md rounded-md bg-black text-white shadow-md sm:w-96 p-4">
                 <div className="flex flex-col items-center gap-2">
-                    <a href="#" className="flex flex-col items-center gap-2 font-medium">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-200">
+                    <a href="/" className="flex flex-col items-center gap-2 font-medium">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-mdbg-black text-white">
                             <GalleryVerticalEnd className="size-6 text-gray-700" />
                         </div>
-                        <span className="sr-only">X Connect</span>
+                        <span className="sr-only bg-black text-white">X Connect</span>
                     </a>
-                    <h1 className="text-xl font-bold">Welcome to X Connect</h1>
+                    <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground">
                         <span className="font-semibold">"Speak Freely, Stay Anonymous."</span>
                     </p>
@@ -87,6 +86,7 @@ function signInPage() {
                             type="email"
                             placeholder="example@gmail.com"
                             required
+                            className="bg-black text-white"
                             {...register("email", { required: "email is required" })}
                         />
                     </div>
@@ -98,18 +98,19 @@ function signInPage() {
                             type="password"
                             placeholder="*********"
                             required
+                            className="bg-black text-white"
                             {...register("password", { required: "password is required" })}
                         />
                         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                     </div>
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className=" bg-white text-black w-full">
                         {isSubmitting ? <Loader className="animate-spin" /> : "Sign In"}
                     </Button>
                 </form>
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                     haven't joined yet ?{" "}
-                    <a href="/signup" className="underline underline-offset-4 hover:text-primary">
+                    <a href="/signup" className="text-white underline underline-offset-4 hover:text-primary">
                         Sign up
                     </a>
                 </p>

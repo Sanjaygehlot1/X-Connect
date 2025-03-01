@@ -1,10 +1,10 @@
 
 'use client'
 
-import React from 'react';
+import React, {useState} from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { X } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import { Message } from '@/Models/message.model';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -21,6 +21,7 @@ import {
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { ApiResponse } from '@/lib/utils/ApiResponse';
+import { boolean } from 'zod';
 
 type MessageCardProps = {
   message: Message;
@@ -29,8 +30,9 @@ type MessageCardProps = {
 
 export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
 
-
+  const [isDeleting, setisDeleting] = useState<boolean>(false)
   const handleDeleteConfirm = async () => {
+    setisDeleting(true)
     try {
       const response = await axios.delete<ApiResponse>(
         `/api/delete-message/${message._id}`
@@ -40,13 +42,16 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      toast("Error",{
+      toast("Error", {
         description: axiosError.response?.data.message ?? 'Failed to delete message',
       });
-    } 
+    }finally{
+      setisDeleting(false)
+    }
   };
 
   return (
+    <>
     <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
@@ -54,7 +59,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant='destructive'>
-                <X className="w-5 h-5" />
+                <Trash className="w-5 h-5" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -82,5 +87,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       </CardHeader>
       <CardContent></CardContent>
     </Card>
+    {isDeleting && toast("Deleting...")}
+    </>
   );
 }
