@@ -1,18 +1,21 @@
+'use client'
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { ApiResponse } from '@/lib/utils/ApiResponse';
 import { Message } from '@/Models/message.model';
 import axios, { AxiosError } from 'axios';
-import { Loader, RefreshCcw } from 'lucide-react';
+import { Copy, Loader, RefreshCcw } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { MessageCard } from '@/components/MessageCard';
 import { toast } from 'sonner';
 import { AcceptMessageSchema } from '@/Schemas/AcceptMessageSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 function page() {
 
@@ -30,8 +33,8 @@ function page() {
     resolver: zodResolver(AcceptMessageSchema)
   })
 
-  const {setValue, register} = form
-
+  const {setValue, register,watch} = form
+  const isAcceptingmessages = watch('messagePreference')
 
 
   const GetMessagesAfterDelete = (messageId : string)=>{
@@ -45,87 +48,139 @@ function page() {
       if(response){
           setmessages(response.data.messages || [])
           toast("Messages Refreshed",{
-            description: response.data.message
+            description: <span className="dark:text-white text-black">{response.data.message}</span>,
+            position: "top-center",
+            duration: 1000,
           });
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
         toast("Error",{
           description:
-            axiosError.response?.data.message ?? 'Failed to fetch messages',
+            <span className='dark:text-white text-black'>{axiosError.response?.data.message ??  'Failed to fetch messages'}</span>,
+            position: "top-center",
+            duration: 1000
         });
     }finally{
       setisLoading(false)
     }
   }
 
+  const ToggleMessagePref = async()=>{
+    setisTogglingSwitch(true)
+    try {
+    const response =  await axios.patch<ApiResponse>("/api/accept-message")
+      setValue("messagePreference", response.data.isAcceptingMessage as boolean)
+      console.log(response.data.isAcceptingMessage)
+      toast("Message Preference toggled",
+        {
+          position: "top-center",
+          description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "You will receive anonymous messages." : "You will not receive anonymous messages."}</span>,
+          duration: 1000
+        }
+      )
+    } catch (error) {
+      const AxiosError = error as AxiosError<ApiResponse>
+      toast("Error",{
+        description: <span className='dark:text-white text-black'>{AxiosError.response?.data.message ??  'Failed to update message preference'}</span>,
+        position: "top-center",
+        duration: 1000
+      })
+    }finally{
+      setisTogglingSwitch(false)
+    }
+  }
+
+  const GetMessagePref = async()=>{
+    try {
+      const response = await axios.get<ApiResponse>("/api/accept-message")
+      setValue("messagePreference",response.data.isAcceptingMessage as boolean)
+      toast("Message Preference fetched",
+        {
+          position: "top-center",
+          description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "On" : "Off"}</span>,
+          duration: 1000
+        })
+    } catch (error) {
+      console.log("EROORL::",error)
+      const AxiosError = error as AxiosError<ApiResponse>
+      toast("Erro",{
+        description: <span className='dark:text-white text-black'>{AxiosError.response?.data.message ??  'Failed to fetch message prefernece'}</span>,
+        position: "top-center",
+        duration: 1000
+      })
+    }
+  }
+  
+  useEffect(()=>{
+    GetAllMessages()
+    GetMessagePref()
+  },[watch])
+
   const CopyToClipboard = ()=>{
     navigator.clipboard.writeText(`${protocol}//${host}/m/${username}`)
     toast("Copied to clipboard",{
-      position: "top-center"
+      position: "top-center",
+      duration: 1000
     })
   }
 
-
+  if (!session || !session.user) {
+    return <div>Please login to continue</div>;
+  }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-    <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
-
-    <div className="mb-4">
-      <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{' '}
-      <div className="flex items-center">
-        <input
-          type="text"
+    <div className="max-w-full mx-auto p-8 bg-white dark:bg-black dark:text-white rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+    <h1 className="text-4xl font-poppins font-bold text-gray-900 dark:text-white mb-6">User Dashboard</h1>
+  
+    <Card className="mb-6 bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-600">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold text-gray-800 dark:text-gray-200">Your Unique Link</CardTitle>
+      </CardHeader>
+      <CardContent className="flex items-center gap-4 p-4">
+        <Input
           value={`${protocol}//${host}/m/${username}`}
-          disabled
-          className="input input-bordered w-full p-2 mr-2"
+          readOnly
+          className="flex-1 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 p-2 rounded-md"
         />
-        <Button onClick={CopyToClipboard}>Copy</Button>
-      </div>
+        <Button
+          variant="outline"
+          onClick={CopyToClipboard}
+          className="flex items-center px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          <Copy className="h-5 w-5 mr-2" />
+        </Button>
+      </CardContent>
+    </Card>
+  
+    <Card className="mb-6 flex items-center justify-between p-4 bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-600">
+      <span className="text-gray-700 dark:text-gray-300 font-medium text-lg">Accept Messages</span>
+      <Switch checked={isAcceptingmessages} disabled={isTogglingSwitch} onCheckedChange={ToggleMessagePref} />
+    </Card>
+  
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Your Messages</h2>
+      <Button
+        variant="outline"
+        onClick={GetAllMessages}
+        disabled={isLoading}
+        className="flex items-center px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+      >
+        {isLoading ? <Loader className="h-5 w-5 animate-spin" /> : <RefreshCcw className="h-5 w-5" />} Refresh
+      </Button>
     </div>
-
-    <div className="mb-4">
-      <Switch
-        {...register('acceptMessages')}
-        checked={}
-        onCheckedChange={}
-        disabled={isTogglingSwitch}
-      />
-      <span className="ml-2">
-        Accept Messages: {isTogglingSwitch ? 'On' : 'Off'}
-      </span>
-    </div>
-    <Separator />
-
-    <Button
-      className="mt-4"
-      variant="outline"
-      onClick={(e) => {
-        e.preventDefault();
-        GetAllMessages();
-      }}
-    >
-      {isLoading ? (
-        <Loader className="h-4 w-4 animate-spin" />
-      ) : (
-        <RefreshCcw className="h-4 w-4" />
-      )}
-    </Button>
-    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+  
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {messages.length > 0 ? (
-        messages.map((singleMessage, index) => (
-          <MessageCard
-            key={index}
-            message={singleMessage}
-            onMessageDelete={GetMessagesAfterDelete}
-          />
+        messages.map((message, index) => (
+          <MessageCard key={index} message={message} onMessageDelete={GetMessagesAfterDelete} />
         ))
       ) : (
-        <p>No messages to display.</p>
+        <p className="text-gray-500 dark:text-gray-400 text-center">No messages available.</p>
       )}
     </div>
   </div>
+  
   )
 }
 

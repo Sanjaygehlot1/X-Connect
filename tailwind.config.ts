@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			poppins: ["var(--font-poppins)", "sans-serif"],
+		  },
 		keyframes: {
 			"caret-blink": {
 			  "0%,70%,100%": { opacity: "1" },

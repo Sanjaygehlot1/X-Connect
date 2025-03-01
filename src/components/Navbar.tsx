@@ -5,34 +5,53 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import { User } from 'next-auth';
+import { ModeToggle } from './theme-toggle';
 
 function Navbar() {
   const { data: session } = useSession();
   const user : User = session?.user as User;
-    console.log(session)
-    console.log("USER::",user)
   return (
-    <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <a href="#" className="text-xl font-bold mb-4 md:mb-0">
+    <nav className="p-4 md:p-6 shadow-lg bg-white dark:bg-black text-black dark:text-white">
+    <div className="container mx-auto flex flex-wrap md:flex-nowrap justify-between items-center">
+      <div className="flex items-center gap-4">
+        <Link
+          href="/"
+          className="text-2xl font-extrabold tracking-wide text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-300 transition"
+        >
           X Connect
-        </a>
+        </Link>
+        <ModeToggle />
+      </div>
+  
+      <div className="flex items-center gap-4">
         {session ? (
-          <>
-            <span className="mr-4">
-              Welcome, {user.username || user.email}
+          <div className="flex items-center space-x-4">
+            <span className="hidden md:inline-block text-sm text-black dark:text-gray-300">
+              Welcome, <span className="font-medium">{user?.username || user?.email}</span>
             </span>
-            <Button onClick={() => signOut()} className="w-full md:w-auto bg-slate-100 text-black" variant='outline'>
+            <Button
+              onClick={() => signOut()}
+              className="bg-black text-white dark:bg-white dark:text-black hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-200 transition"
+              variant="outline"
+            >
               Logout
             </Button>
-          </>
+          </div>
         ) : (
           <Link href="/signin">
-            <Button className="w-full md:w-auto bg-slate-100 text-black" variant={'outline'}>Login</Button>
+            <Button
+              className="bg-black text-white dark:bg-white dark:text-black hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-200 transition"
+              variant="outline"
+            >
+              Login
+            </Button>
           </Link>
         )}
       </div>
-    </nav>
+    </div>
+  </nav>
+  
+  
   );
 }
 

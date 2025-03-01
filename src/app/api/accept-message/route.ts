@@ -16,9 +16,10 @@ export async function PATCH(request: Request) {
     }
     try {
         console.log(user?.isAcceptingMessage)
+        const LoggedInUser = await UserModel.findById(user?._id)
         const Existinguser = await UserModel.findByIdAndUpdate(user?._id,
             {
-                isAcceptingMessage: !user?.isAcceptingMessage
+                isAcceptingMessage: !LoggedInUser?.isAcceptingMessage
             },
             {
                 new: true
@@ -31,7 +32,9 @@ export async function PATCH(request: Request) {
         }
 
         return Response.json(
-            { success: true, message: 'Message preference toggled' },
+            { success: true, message: 'Message preference toggled',
+                isAcceptingMessage : Existinguser.isAcceptingMessage
+             },
             { status: 200 }
         );
 
@@ -72,7 +75,7 @@ export async function GET(request:Request) {
                 message: 'Message preference fetched',
                 isAcceptingMessage: Existinguser.isAcceptingMessage
             },
-            { status: 401 }
+            { status: 200 }
         );
     } catch (error) {
         console.error('Error fetching message preference:', error);
