@@ -2,11 +2,11 @@
 import { Poppins } from "next/font/google";
 import AuthProvider from "./context/Authprovider";
 import { Toaster } from "@/components/ui/sonner";
-import type { Metadata } from "next";
 import Head from "next/head";
 import "./globals.css";
 import { Providers } from "@/components/theme-provider";
 import { useEffect,useState } from "react";
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],

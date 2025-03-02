@@ -1,7 +1,7 @@
 
 'use client'
 
-import React, {useState} from 'react';
+import React from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { CheckCircle, Trash, XCircle } from 'lucide-react';
@@ -21,7 +21,6 @@ import {
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { ApiResponse } from '@/lib/utils/ApiResponse';
-import { boolean } from 'zod';
 
 type MessageCardProps = {
   message: Message;

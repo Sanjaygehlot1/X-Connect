@@ -1,6 +1,6 @@
 'use client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Copy, CopyCheckIcon, Loader, RefreshCcw, X } from 'lucide-react';
+import { Copy, CopyCheckIcon, Loader, RefreshCcw} from 'lucide-react';
 import { AcceptMessageSchema } from '@/Schemas/AcceptMessageSchema';
 import { MessageCard } from '@/components/MessageCard';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,9 +15,8 @@ import { useSession } from 'next-auth/react';
 import axios, { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
-function page() {
+function Dashboard() {
 
   const [messages, setmessages] = useState<Message[]>([])
   const [isLoading, setisLoading] = useState(false)
@@ -33,7 +32,7 @@ function page() {
     resolver: zodResolver(AcceptMessageSchema)
   })
 
-  const {setValue, register,watch} = form
+  const {setValue, watch} = form
   const isAcceptingmessages = watch('messagePreference')
 
 
@@ -185,4 +184,4 @@ function page() {
   )
 }
 
-export default page
+export default Dashboard

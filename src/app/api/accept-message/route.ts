@@ -4,7 +4,7 @@ import { getServerSession, User } from "next-auth";
 import { AuthOptions } from "../auth/[...nextauth]/options";
 
 
-export async function PATCH(request: Request) {
+export async function PATCH() {
     DBConnect()
     const session = await getServerSession(AuthOptions)
     const user : User = session?.user as User
@@ -50,7 +50,7 @@ export async function PATCH(request: Request) {
     }
 }
 
-export async function GET(request:Request) {
+export async function GET() {
     DBConnect()
     const session = await getServerSession(AuthOptions)
     const user : User = session?.user as User

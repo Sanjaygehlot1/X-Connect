@@ -29,9 +29,8 @@ import { CheckCircle, Loader, XCircle } from "lucide-react"
 
 const FormSchema = verifySchema
 
-function page() {
+function VerifyUser() {
     const [isverifying, setisVerifying] = useState(false)
-    const [verifyMessage, setverifyMessage] = useState("")
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -70,7 +69,6 @@ function page() {
 
         } catch (error) {
             const AxiosError = error as AxiosError<ApiResponse>
-            setverifyMessage(AxiosError.response?.data.message || "")
             console.log(error)
             toast("Verification Failed",
                 {
@@ -128,4 +126,4 @@ function page() {
     )
 }
 
-export default page
+export default VerifyUser

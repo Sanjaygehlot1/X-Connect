@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth"; 8
+import { NextAuthOptions } from "next-auth"; 
 import Credentials from "next-auth/providers/credentials";
 import UserModel from "@/Models/user.model";
 import DBConnect from "@/lib/DBConnection";
@@ -12,11 +12,11 @@ export const AuthOptions: NextAuthOptions = {
                 email: { label: "Email", type: "text", placeholder: "example@gmail.com" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials: any): Promise<any> {
+            async authorize(credentials): Promise<any>{
                 DBConnect()
                 try {
                     const user = await UserModel.findOne({
-                        email: credentials.email
+                        email: credentials?.email
                     })
                     if (!user) {
                         throw new Error("No user found")
@@ -24,14 +24,14 @@ export const AuthOptions: NextAuthOptions = {
                     if (!user.isVerified) {
                         throw new Error("Please verify your email to continue.")
                     }
-                    const isPassCorrect = await bcrypt.compare(credentials.password, user.password)
+                    const isPassCorrect = await bcrypt.compare(credentials?.password as string, user.password)
 
                     if (!isPassCorrect) {
                         throw new Error("Incorrect Password")
                     }
                     return user
-                } catch (error: any) {
-                    throw new Error(error)
+                } catch (error) {
+                    throw new Error(error as string)
                 }
             }
         })

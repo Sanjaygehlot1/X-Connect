@@ -1,4 +1,3 @@
-import { SendEmail } from "@/helpers/SendVerificationCode"
 import DBConnect from "@/lib/DBConnection"
 import UserModel from "@/Models/user.model"
 import axios from "axios"
@@ -23,8 +22,8 @@ await DBConnect()
         }
 
         const ExistingUserByEmail = await UserModel.findOne({ email })
-        let hashedPass = await bcrypt.hash(password, 10)
-        let verifyCode = Math.floor(1000 + Math.random() * 9000).toString();
+        const hashedPass = await bcrypt.hash(password, 10)
+        const verifyCode = Math.floor(1000 + Math.random() * 9000).toString();
 
         if (ExistingUserByEmail) {
 

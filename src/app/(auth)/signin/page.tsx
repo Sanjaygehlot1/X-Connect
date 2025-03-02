@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
@@ -13,7 +15,7 @@ import { z } from "zod"
 import { signInSchema } from "@/Schemas/SignInSchema"
 import { CheckCircle, XCircle } from "lucide-react"
 
-function signInPage() {
+function SignInPage() {
 
     const [isSubmitting, setisSubmitting] = useState(false)
 
@@ -72,15 +74,15 @@ function signInPage() {
 
             <div className=" w-full max-w-md rounded-md bg-black text-white shadow-md sm:w-96 p-4">
                 <div className="flex flex-col items-center gap-2">
-                    <a href="/" className="flex flex-col items-center gap-2 font-medium">
+                    <Link href="/" className="flex flex-col items-center gap-2 font-medium">
                         <div className="flex h-16 w-[116px] items-center justify-center rounded-mdbg-black text-white">
-                            <img src="/icon.svg" width="150px" height="96px" alt="X Connect"></img>
+                            <Image src="/icon.svg" width={150} height={96} alt="X Connect"></Image>
                         </div>
                         <span className="sr-only bg-black text-white">X Connect</span>
-                    </a>
+                    </Link>
                     <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground">
-                        <span className="font-semibold">"Connect Anonymously, Share Freely."</span>
+                    <span className="font-semibold">&quot;Connect Anonymously, Share Freely.&quot;</span>
                     </p>
                 </div>
 
@@ -110,7 +112,7 @@ function signInPage() {
                         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                     </div>
                     <Button type="submit" className=" bg-white text-black w-full">
-                        {isSubmitting ? <Loader className="animate-spin" /> : "Sign In"}
+                        {isSubmitting ? <Loader className="animate-spin" /> : "Sign in"}
                     </Button>
                 </form>
 
@@ -126,4 +128,4 @@ function signInPage() {
     )
 }
 
-export default signInPage
+export default SignInPage

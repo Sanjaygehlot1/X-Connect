@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpSchema } from "@/Schemas/SignupSchema"
 import { ApiResponse } from "@/lib/utils/ApiResponse"
 import { useDebounceCallback } from "usehooks-ts"
-import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,8 +14,10 @@ import { Loader } from "lucide-react"
 import { toast } from "sonner"
 import { CheckCircle, XCircle } from "lucide-react"
 import { z } from "zod"
+import Link from "next/link"
+import Image from "next/image"
 
-function signUpPage() {
+function SignUpPage() {
 
     const [usernameMessage, setusernameMessage] = useState("")
     const [username, setusername] = useState("")
@@ -103,15 +104,15 @@ function signUpPage() {
         <div className="flex min-h-screen bg-black text-white items-center justify-center  p-4">
             <div className="w-full max-w-md rounded-md bg-black text-white p-6 shadow-md sm:w-96">
                 <div className="flex flex-col bg-black text-white items-center gap-2">
-                    <a href="/" className="flex bg-black text-white flex-col items-center gap-2 font-medium">
+                    <Link href="/" className="flex bg-black text-white flex-col items-center gap-2 font-medium">
                         <div className="flex h-16 w-[116px] items-center justify-center rounded-md bg-black text-white">
-                        <img src="/icon.svg" width="150px" height="96px" alt="X Connect"></img>
+                       <Image src="/icon.svg" width={150} height={96} alt="X Connect"></Image>
                         </div>
                         <span className="sr-only bg-black text-white">X Connect</span>
-                    </a>
+                    </Link>
                     <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground bg-black text-white">
-                        <span className="font-semibold bg-black text-white">"Connect Anonymously, Share Freely."</span>
+                        <span className="font-semibold bg-black text-white">&quot;Connect Anonymously, Share Freely.&quot;</span>
                     </p>
                 </div>
 
@@ -176,4 +177,4 @@ function signUpPage() {
     )
 }
 
-export default signUpPage
+export default SignUpPage

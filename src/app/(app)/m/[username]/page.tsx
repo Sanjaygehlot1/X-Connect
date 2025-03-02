@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -21,7 +20,8 @@ import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ApiResponse } from '@/lib/utils/ApiResponse'
 import { CheckCircle, Loader, XCircle } from 'lucide-react'
-const page = () => {
+
+const MessageUser = () => {
 
   const [AiMessages, setAiMessages] = useState<string[]>([])
   const [isSending, setisSending] = useState(false)
@@ -131,4 +131,4 @@ const page = () => {
   )
 }
 
-export default page
+export default MessageUser
