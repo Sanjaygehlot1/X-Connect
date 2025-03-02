@@ -64,6 +64,7 @@ const MessageUser = () => {
       const MessagesArray = response.data.split("||")
       setAiMessages(MessagesArray)
     } catch (error) {
+      console.error(error)
       toast("Error",
         {
           description: <span className='dark:text-white text-black'>Something went wrong</span>,
