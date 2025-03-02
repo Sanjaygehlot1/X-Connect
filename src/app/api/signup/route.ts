@@ -58,16 +58,20 @@ await DBConnect()
 
         const emailSubject = "X Connect | Verification Code"
         const text = `Your verification code to verify your email is: ${verifyCode}`
-
+        
         const sendEmail = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/send-email`,{to:email, subject : emailSubject , text })
 
+        
+        console.log(sendEmail)
         if(sendEmail.data.success){
+            console.log("Email sent")
            return Response.json({
             success: true,
             message: sendEmail.data.message,
           },
           { status: 201 })
         }else{
+            console.log("Email sent")
             return Response.json({
                 success: false,
                 message: sendEmail.data.message,
@@ -80,7 +84,7 @@ await DBConnect()
         return Response.json(
             {
               success: false,
-              message: 'Error registering user',
+              message: `Error registering user ${error}`,
             },
             { status: 500 }
           );
