@@ -63,7 +63,7 @@ function SignInPage() {
                     icon: <CheckCircle />
                 });
                 await new Promise((resolve) => setTimeout(resolve, 1000)); 
-                router.replace('/dashboard');
+                router.push('/dashboard');
                 
             }
         }
