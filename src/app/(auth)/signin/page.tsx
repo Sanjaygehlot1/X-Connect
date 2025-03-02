@@ -64,9 +64,8 @@ function SignInPage() {
                     position: "top-center",
                     icon: <CheckCircle />
                 });
-                if (typeof window !== "undefined") {
-                    router.replace("/dashboard");
-                }
+                await new Promise((resolve) => setTimeout(resolve, 1000)); 
+                router.replace('/dashboard');
                 
             }
         }
