@@ -71,7 +71,6 @@ function Dashboard() {
     try {
     const response =  await axios.patch<ApiResponse>("/api/accept-message")
       setValue("messagePreference", response.data.isAcceptingMessage as boolean)
-      console.log(response.data.isAcceptingMessage)
       toast("Message Preference toggled",
         {
           position: "top-center",
@@ -99,7 +98,6 @@ function Dashboard() {
       setValue("messagePreference",response.data.isAcceptingMessage as boolean)
 
     } catch (error) {
-      console.log("EROORL::",error)
       const AxiosError = error as AxiosError<ApiResponse>
       toast("Error",{
         description: <span className='dark:text-white text-black'>{AxiosError.response?.data.message ??  'Failed to fetch message prefernece'}</span>,

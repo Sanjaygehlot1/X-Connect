@@ -42,15 +42,11 @@ function VerifyUser() {
     const router = useRouter()
 
     const pathname = usePathname()
-    console.log(pathname.trim().split("/"))
     const username = pathname.trim()?.toString().split("/")[2]
-    console.log(username)
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         setisVerifying(true)
         try {
             const response = await axios.post<ApiResponse>(`/api/verify-code`, { username, code: data.code })
-            console.log(response)
-            console.log(data)
             if (response.data.success) {
                 router.replace("/dashboard")
                 toast("Verfication successful", {
@@ -69,7 +65,6 @@ function VerifyUser() {
 
         } catch (error) {
             const AxiosError = error as AxiosError<ApiResponse>
-            console.log(error)
             toast("Verification Failed",
                 {
                     position: "top-center",

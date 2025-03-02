@@ -65,7 +65,6 @@ function SignUpPage() {
 
     const submit = async (data: z.infer<typeof SignUpSchema>) => {
         setisSubmitting(true)
-        console.log(data)
         if (data) {
             try {
                 const submitResponse = await axios.post<ApiResponse>("/api/signup", { username: data.username, email: data.email, password: data.password })

@@ -46,7 +46,6 @@ const MessageUser = () => {
       )
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
-      console.log(axiosError)
       toast("Error",
         {
           description: <span className='dark:text-white text-black'>{axiosError.response?.data.message}</span>,
@@ -65,7 +64,6 @@ const MessageUser = () => {
       const MessagesArray = response.data.split("||")
       setAiMessages(MessagesArray)
     } catch (error) {
-      console.log(error)
       toast("Error",
         {
           description: <span className='dark:text-white text-black'>Something went wrong</span>,
@@ -80,7 +78,6 @@ const MessageUser = () => {
   useEffect(() => {
     setAiMessages(DemoMessages)
   }, [])
-  console.log(AiMessages)
 
   return (
     <div className='w-full mt-3 px-4 sm:px-6 lg:px-8 flex flex-col items-center space-y-6'>

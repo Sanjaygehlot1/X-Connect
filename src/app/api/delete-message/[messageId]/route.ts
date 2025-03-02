@@ -4,15 +4,11 @@ import DBConnect from "@/lib/DBConnection";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
-export async function DELETE(request: Request) {
-    console.log("Starting...")
+export async function DELETE(request: Request, { params }: { params: Promise<{ messageId: string }> }) {
+
     DBConnect()
-    console.log(request.url)
-    
-    const { searchParams } = new URL(request.url);
-    console.log(searchParams)
-    const messageId = searchParams.get("messageId");
-    console.log(messageId)
+
+    const messageId = (await params).messageId
     const session = await getServerSession(AuthOptions)
     const user: User = session?.user as User
     if (!session || !user) {
@@ -28,8 +24,8 @@ export async function DELETE(request: Request) {
             { status: 400 }
         );
     }
-    
-    
+
+
     try {
         const response = await UserModel.updateOne(
             {

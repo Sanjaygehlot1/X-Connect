@@ -34,14 +34,12 @@ function SignInPage() {
 
     const submit = async (data: z.infer<typeof signInSchema>) => {
         setisSubmitting(true)
-        console.log(data)
         if (data) {
             const result = await signIn('credentials', {
                 redirect: false,
                 email: data.email,
                 password: data.password
             })
-            console.log("Result::", result)
             if (result?.error) {
                 if (result.error === "CredentialsSignin") {
                     toast("Sign in Failed", {
