@@ -8,6 +8,8 @@ export async function DELETE(request: Request) {
 
     DBConnect()
     const { searchParams } = new URL(request.url);
+    console.log(searchParams)
+    console.log(request.url)
     const messageId = searchParams.get("messageId");
     const session = await getServerSession(AuthOptions)
     const user: User = session?.user as User
