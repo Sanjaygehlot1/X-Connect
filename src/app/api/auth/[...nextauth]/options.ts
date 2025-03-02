@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextAuthOptions } from "next-auth"; 
 import Credentials from "next-auth/providers/credentials";
 import UserModel from "@/Models/user.model";

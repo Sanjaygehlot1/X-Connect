@@ -47,13 +47,13 @@ function SignInPage() {
                     toast("Sign in Failed", {
                         description: 'Incorrect email or password',
                         position: "top-center",
-                        icon: <XCircle color="red"/>
+                        icon: <XCircle color="red" />
                     });
                 } else {
                     toast("Sign in Failed", {
                         description: result.error,
                         position: "top-center",
-                        icon: <XCircle color="red"/>
+                        icon: <XCircle color="red" />
                     });
                 }
             }
@@ -62,7 +62,7 @@ function SignInPage() {
                 toast("Sign in successful", {
                     description: "user logged in successfully",
                     position: "top-center",
-                    icon: <CheckCircle/>
+                    icon: <CheckCircle />
                 });
                 router.replace('/dashboard')
             }
@@ -82,7 +82,7 @@ function SignInPage() {
                     </Link>
                     <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground">
-                    <span className="font-semibold">&quot;Connect Anonymously, Share Freely.&quot;</span>
+                        <span className="font-semibold">&quot;Connect Anonymously, Share Freely.&quot;</span>
                     </p>
                 </div>
 
@@ -117,7 +117,7 @@ function SignInPage() {
                 </form>
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
-                    haven't joined yet ?{" "}
+                    haven&#39;t joined yet?{" "}
                     <a href="/signup" className="text-white underline underline-offset-4 hover:text-primary">
                         Sign up
                     </a>
