@@ -21,12 +21,11 @@ function Dashboard() {
   const [messages, setmessages] = useState<Message[]>([])
   const [isLoading, setisLoading] = useState(false)
   const [isTogglingSwitch, setisTogglingSwitch] = useState(false)
+  const [host, setHost] = useState("");
+  const [protocol, setProtocol] = useState("");
 
   const {data: session} = useSession()
   const username = session?.user?.username
-
-  const host = window?.location.host
-  const protocol = window?.location.protocol
 
   const form  = useForm({
     resolver: zodResolver(AcceptMessageSchema)
@@ -116,14 +115,26 @@ function Dashboard() {
     GetMessagePref()
   },[watch])
 
-  const CopyToClipboard = ()=>{
-    navigator.clipboard.writeText(`${protocol}//${host}/m/${username}`)
-    toast("Copied to clipboard",{
+
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    setHost(window.location.host);
+    setProtocol(window.location.protocol);
+  }
+}, []);
+
+const CopyToClipboard = () => {
+  if (typeof window !== "undefined") {
+    navigator.clipboard.writeText(`${protocol}//${host}/m/${username}`);
+    toast("Copied to clipboard", {
       position: "top-center",
       duration: 1000,
-      icon:<CopyCheckIcon/>
-    })
+      icon: <CopyCheckIcon />,
+    });
   }
+};
+
 
   if (!session || !session.user) {
     return <div>Please login to continue</div>;
