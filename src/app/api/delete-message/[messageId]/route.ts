@@ -5,12 +5,14 @@ import { getServerSession } from "next-auth";
 import { AuthOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
 export async function DELETE(request: Request) {
-
+    console.log("Starting...")
     DBConnect()
+    console.log(request.url)
+    
     const { searchParams } = new URL(request.url);
     console.log(searchParams)
-    console.log(request.url)
     const messageId = searchParams.get("messageId");
+    console.log(messageId)
     const session = await getServerSession(AuthOptions)
     const user: User = session?.user as User
     if (!session || !user) {
