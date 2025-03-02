@@ -4,7 +4,7 @@
 import React, {useState} from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { Trash } from 'lucide-react';
+import { CheckCircle, Trash, XCircle } from 'lucide-react';
 import { Message } from '@/Models/message.model';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -30,23 +30,24 @@ type MessageCardProps = {
 
 export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
 
-  const [isDeleting, setisDeleting] = useState<boolean>(false)
   const handleDeleteConfirm = async () => {
-    setisDeleting(true)
     try {
       const response = await axios.delete<ApiResponse>(
         `/api/delete-message/${message._id}`
       );
-      toast(response.data.message)
+      toast(response.data.message,{
+        position: "top-center",
+        icon: <CheckCircle/>
+      })
       onMessageDelete(message._id as string);
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast("Error", {
         description: axiosError.response?.data.message ?? 'Failed to delete message',
+        position:"top-center",
+        icon: <XCircle color='red'/>
       });
-    }finally{
-      setisDeleting(false)
     }
   };
 
@@ -87,7 +88,6 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       </CardHeader>
       <CardContent></CardContent>
     </Card>
-    {isDeleting && toast("Deleting...")}
     </>
   );
 }

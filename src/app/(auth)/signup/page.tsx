@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form"
 import axios, { AxiosError } from "axios"
 import { Loader } from "lucide-react"
 import { toast } from "sonner"
+import { CheckCircle, XCircle } from "lucide-react"
 import { z } from "zod"
 
 function signUpPage() {
@@ -71,13 +72,15 @@ function signUpPage() {
                 if (submitResponse.data.success) {
                     toast("Signup almost done", {
                         position: "top-center",
-                        description: "Please verify email to complete signup"
+                        description: "Please verify email to complete signup",
+                        icon: <CheckCircle/>
                     })
                     router.replace(`/verify/${username}`)
                 }else{
                     toast("Signup Failed!", {
                         position: "top-center",
-                        description: submitResponse.data.message ?? "Unexpected error occured"
+                        description: submitResponse.data.message ?? "Unexpected error occured",
+                        icon: <XCircle color="red"/>
                     })
                 }
                 setisSubmitting(false)
@@ -88,7 +91,8 @@ function signUpPage() {
                 const axiosError = error as AxiosError<ApiResponse>;
                 toast("Signup Failed!", {
                     position: "top-center",
-                    description: axiosError.response?.data.message ?? "Unexpected error occured"
+                    description: axiosError.response?.data.message ?? "Unexpected error occured",
+                    icon: <XCircle color="red"/>
                 })
                 setisSubmitting(false)
             }
@@ -99,15 +103,15 @@ function signUpPage() {
         <div className="flex min-h-screen bg-black text-white items-center justify-center  p-4">
             <div className="w-full max-w-md rounded-md bg-black text-white p-6 shadow-md sm:w-96">
                 <div className="flex flex-col bg-black text-white items-center gap-2">
-                    <a href="#" className="flex bg-black text-white flex-col items-center gap-2 font-medium">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-black text-white">
-                            <GalleryVerticalEnd className="size-6 bg-black text-white" />
+                    <a href="/" className="flex bg-black text-white flex-col items-center gap-2 font-medium">
+                        <div className="flex h-16 w-[116px] items-center justify-center rounded-md bg-black text-white">
+                        <img src="/icon.svg" width="150px" height="96px" alt="X Connect"></img>
                         </div>
                         <span className="sr-only bg-black text-white">X Connect</span>
                     </a>
                     <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground bg-black text-white">
-                        <span className="font-semibold bg-black text-white">"Speak Freely, Stay Anonymous."</span>
+                        <span className="font-semibold bg-black text-white">"Connect Anonymously, Share Freely."</span>
                     </p>
                 </div>
 
@@ -126,7 +130,7 @@ function signUpPage() {
                             }}
                         />
                         {isChecking && <Loader className="animate-spin text-gray-500" />}
-                        {usernameMessage && <p className="text-red-500">{usernameMessage}</p>}
+                        {usernameMessage && <p className={usernameMessage == "username is available"? "text-green-500" : "text-red-600" }>{usernameMessage}</p>}
                     </div>
 
                     <div className="grid gap-2">

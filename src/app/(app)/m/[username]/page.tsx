@@ -20,7 +20,7 @@ import { z } from 'zod'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ApiResponse } from '@/lib/utils/ApiResponse'
-import { Loader } from 'lucide-react'
+import { CheckCircle, Loader, XCircle } from 'lucide-react'
 const page = () => {
 
   const [AiMessages, setAiMessages] = useState<string[]>([])
@@ -40,7 +40,8 @@ const page = () => {
       toast("Message sent",
         {
           description: <span className='dark:text-white text-black'>{response.data.message ? `${response.data.message} to ${username}` : `message delivered successfully to ${username}`}</span>,
-          position: "top-center"
+          position: "top-center",
+          icon: <CheckCircle/>
         }
       )
     } catch (error) {
@@ -49,7 +50,8 @@ const page = () => {
       toast("Error",
         {
           description: <span className='dark:text-white text-black'>{axiosError.response?.data.message}</span>,
-          position: "top-center"
+          position: "top-center",
+          icon: <XCircle color='red'/>
         })
     } finally {
       setisSending(false)
@@ -67,7 +69,8 @@ const page = () => {
       toast("Error",
         {
           description: <span className='dark:text-white text-black'>Something went wrong</span>,
-          position: "top-center"
+          position: "top-center",
+          icon:<XCircle color='red'/>
         })
     } finally {
       setisGeneratingMessages(false)

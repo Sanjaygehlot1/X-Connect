@@ -20,14 +20,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={poppins.variable}>
-      <Providers> 
-      <body className="font-poppins">
-        <Navbar/>
-        {children}
-        <Footer/>
-        </body>
-      </Providers>
-    </html>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      {children}
+      <Footer/>
+    </div>
   )
 }

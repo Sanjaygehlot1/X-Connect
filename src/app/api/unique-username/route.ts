@@ -6,9 +6,9 @@ import DBConnect from '@/lib/DBConnection';
 const UsernameSchemaValidation = z.object({
     username: z
         .string()
-        .min(2, 'Username must be at least 2 characters')
-        .max(20, 'Username must be no more than 20 characters')
-        .regex(/^[a-zA-Z0-9_]+$/, 'Username must not contain special characters')
+        .min(3, 'username must be at least 3 characters')
+        .max(20, 'username must be no more than 20 characters')
+        .regex(/^[a-zA-Z0-9_]+$/, 'username must not contain special characters')
 })
 
 export async function GET(request: Request) {
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
         return Response.json(
             {
                 success: true,
-                message: 'Username is unique',
+                message: 'username is available',
             },
             { status: 200 }
         );

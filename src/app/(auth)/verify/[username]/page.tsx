@@ -23,7 +23,6 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import axios, { AxiosError } from "axios"
-import path from "path"
 import { ApiResponse } from "@/lib/utils/ApiResponse"
 import { toast } from "sonner"
 import { CheckCircle, Loader, XCircle } from "lucide-react"
@@ -60,11 +59,11 @@ function page() {
                     icon: <CheckCircle />,
                     position: "top-center"
                 })
-            }else{
+            } else {
                 toast("VerficationFailed", {
                     description: response.data.message || "Unexpected error occured",
                     position: "top-center",
-                    icon: <XCircle color="red"/>
+                    icon: <XCircle color="red" />
                 })
             }
             setisVerifying(false)
@@ -77,7 +76,7 @@ function page() {
                 {
                     position: "top-center",
                     description: AxiosError.response?.data.message || "",
-                    icon:  <XCircle color="red"/>
+                    icon: <XCircle color="red" />
                 }
             )
             setisVerifying(false)

@@ -15,23 +15,23 @@ interface User extends Document{
 const UserSchema : Schema<User> = new  Schema({
     username: {
         type: String,
-        required: [true, "Username is required"],
+        required: [true, "username is required"],
         trim : true,
         unique: true
     },
     email:{
         type: String,
-        required: [true, "Email is required"],
+        required: [true, "email is required"],
         match: [ /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         ,"Invalid Email Address"]
     },
     password:{
         type: String,
-        required: [true, "Password is required"],
+        required: [true, "password is required"],
     },
     verifyCode:{
         type: String,
-        required: [true, "Verify code is required"],
+        required: [true, "verify code is required"],
     },
     verifyCodeExpiry: {
         type: Date

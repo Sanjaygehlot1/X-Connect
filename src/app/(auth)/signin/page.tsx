@@ -1,6 +1,5 @@
 'use client'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +11,7 @@ import { Loader } from "lucide-react"
 import { toast } from "sonner"
 import { z } from "zod"
 import { signInSchema } from "@/Schemas/SignInSchema"
+import { CheckCircle, XCircle } from "lucide-react"
 
 function signInPage() {
 
@@ -39,22 +39,28 @@ function signInPage() {
                 email: data.email,
                 password: data.password
             })
-            console.log("Result::",result)
+            console.log("Result::", result)
             if (result?.error) {
                 if (result.error === "CredentialsSignin") {
                     toast("Sign in Failed", {
-                        description: 'Incorrect email or password'
+                        description: 'Incorrect email or password',
+                        position: "top-center",
+                        icon: <XCircle color="red"/>
                     });
                 } else {
                     toast("Sign in Failed", {
                         description: result.error,
+                        position: "top-center",
+                        icon: <XCircle color="red"/>
                     });
                 }
             }
             setisSubmitting(false)
-            if(result?.url){
+            if (result?.url) {
                 toast("Sign in successful", {
                     description: "user logged in successfully",
+                    position: "top-center",
+                    icon: <CheckCircle/>
                 });
                 router.replace('/dashboard')
             }
@@ -63,18 +69,18 @@ function signInPage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-black text-white p-4">
-            
+
             <div className=" w-full max-w-md rounded-md bg-black text-white shadow-md sm:w-96 p-4">
                 <div className="flex flex-col items-center gap-2">
                     <a href="/" className="flex flex-col items-center gap-2 font-medium">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-mdbg-black text-white">
-                            <GalleryVerticalEnd className="size-6 text-gray-700" />
+                        <div className="flex h-16 w-[116px] items-center justify-center rounded-mdbg-black text-white">
+                            <img src="/icon.svg" width="150px" height="96px" alt="X Connect"></img>
                         </div>
                         <span className="sr-only bg-black text-white">X Connect</span>
                     </a>
                     <h1 className="text-xl font-bold bg-black text-white">Welcome to X Connect</h1>
                     <p className="text-center text-sm text-muted-foreground">
-                        <span className="font-semibold">"Speak Freely, Stay Anonymous."</span>
+                        <span className="font-semibold">"Connect Anonymously, Share Freely."</span>
                     </p>
                 </div>
 

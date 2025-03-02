@@ -1,20 +1,21 @@
 'use client'
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { ApiResponse } from '@/lib/utils/ApiResponse';
-import { Message } from '@/Models/message.model';
-import axios, { AxiosError } from 'axios';
-import { Copy, Loader, RefreshCcw } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import React, {useEffect, useState} from 'react'
-import { MessageCard } from '@/components/MessageCard';
-import { toast } from 'sonner';
-import { AcceptMessageSchema } from '@/Schemas/AcceptMessageSchema';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Copy, CopyCheckIcon, Loader, RefreshCcw, X } from 'lucide-react';
+import { AcceptMessageSchema } from '@/Schemas/AcceptMessageSchema';
+import { MessageCard } from '@/components/MessageCard';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ApiResponse } from '@/lib/utils/ApiResponse';
+import { CheckCircle, XCircle } from "lucide-react"
+import React, {useEffect, useState} from 'react'
+import { Button } from '@/components/ui/button';
+import { Message } from '@/Models/message.model';
+import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
+import { useSession } from 'next-auth/react';
+import axios, { AxiosError } from 'axios';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 function page() {
 
@@ -49,6 +50,7 @@ function page() {
           toast("Messages Refreshed",{
             description: <span className="dark:text-white text-black">{response.data.message}</span>,
             position: "top-center",
+            icon: <CheckCircle/>,
             duration: 1000,
           });
       }
@@ -58,7 +60,8 @@ function page() {
           description:
             <span className='dark:text-white text-black'>{axiosError.response?.data.message ??  'Failed to fetch messages'}</span>,
             position: "top-center",
-            duration: 1000
+            duration: 1000,
+            icon: <XCircle color='red'/>
         });
     }finally{
       setisLoading(false)
@@ -75,7 +78,8 @@ function page() {
         {
           position: "top-center",
           description: <span className='dark:text-white text-black'>{response.data.isAcceptingMessage ? "Message preference: ON" : "Message preference: OFF"}</span>,
-          duration: 1000
+          duration: 1000,
+          icon:<CheckCircle/>
         }
       )
     } catch (error) {
@@ -83,7 +87,8 @@ function page() {
       toast("Error",{
         description: <span className='dark:text-white text-black'>{AxiosError.response?.data.message ??  'Failed to update message preference'}</span>,
         position: "top-center",
-        duration: 1000
+        duration: 1000,
+        icon: <XCircle color='red'/>
       })
     }finally{
       setisTogglingSwitch(false)
@@ -98,10 +103,11 @@ function page() {
     } catch (error) {
       console.log("EROORL::",error)
       const AxiosError = error as AxiosError<ApiResponse>
-      toast("Erro",{
+      toast("Error",{
         description: <span className='dark:text-white text-black'>{AxiosError.response?.data.message ??  'Failed to fetch message prefernece'}</span>,
         position: "top-center",
-        duration: 1000
+        duration: 1000,
+        icon: <XCircle color='red'/>
       })
     }
   }
@@ -115,7 +121,8 @@ function page() {
     navigator.clipboard.writeText(`${protocol}//${host}/m/${username}`)
     toast("Copied to clipboard",{
       position: "top-center",
-      duration: 1000
+      duration: 1000,
+      icon:<CopyCheckIcon/>
     })
   }
 
@@ -124,7 +131,7 @@ function page() {
   }
 
   return (
-    <div className="max-w-full mx-auto p-8 bg-white dark:bg-black dark:text-white rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+    <div className="max-w-full w-full mx-auto p-8 bg-white dark:bg-black dark:text-white rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
     <h1 className="text-4xl font-poppins font-bold text-gray-900 dark:text-white mb-6">User Dashboard</h1>
   
     <Card className="mb-6 bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-600">
