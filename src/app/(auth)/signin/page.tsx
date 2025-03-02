@@ -64,7 +64,10 @@ function SignInPage() {
                     position: "top-center",
                     icon: <CheckCircle />
                 });
-                router.replace('/dashboard')
+                if (typeof window !== "undefined") {
+                    router.replace("/dashboard");
+                }
+                
             }
         }
     }
